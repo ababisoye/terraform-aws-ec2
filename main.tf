@@ -1,6 +1,16 @@
+module "networking" {
+  source = "./modules/networking"
+
+  name               = local.name_prefix
+  vpc_cidr           = var.vpc_cidr
+  public_subnet_cidr = var.public_subnet_cidr
+}
+
+
 resource "aws_security_group" "web" {
   name        = "${local.name_prefix}-web-sg"
   description = "Allow HTTP to the web server"
+  vpc_id      = module.networking.vpc_id
 
   ingress {
     description = "HTTP from anywhere"
@@ -29,4 +39,6 @@ module "web" {
   name               = local.name_prefix
   instance_type      = var.instance_type
   security_group_ids = [aws_security_group.web.id]
+  subnet_id          = module.networking.public_subnet_id
 }
+

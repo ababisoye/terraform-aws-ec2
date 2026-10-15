@@ -12,3 +12,9 @@ variable "security_group_ids" {
   description = "Security groups to attach"
   type        = list(string)
 }
+variable "subnet_id" {
+  description = "ID of the subnet where the ec2 instance will run"
+  type        = string
+
+}
+
